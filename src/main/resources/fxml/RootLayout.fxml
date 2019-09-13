@@ -13,9 +13,13 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#onAddEmployeeClick" text="Add Employee" />
                   <MenuItem mnemonicParsing="false" onAction="#onEmployeeListClick" text="Employee List" />
+                  <MenuItem mnemonicParsing="false" onAction="#onLoginClick" text="Login" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" onAction="#onReportClick" text="Reports" />
+          <Menu mnemonicParsing="false" text="Reports">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#onReportClick" text="View Reports" />
+               </items></Menu>
         </menus>
       </MenuBar>
    </top>

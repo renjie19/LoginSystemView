@@ -2,15 +2,15 @@ package com.gania.jonh.model;
 
 
 public class Subject {
-    private int subjectId;
+    private int id;
     private String subjectName;
 
-    public int getSubjectId() {
-        return subjectId;
+    public int getId() {
+        return id;
     }
 
-    public void setSubjectId(int subjectId) {
-        this.subjectId = subjectId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSubjectName() {

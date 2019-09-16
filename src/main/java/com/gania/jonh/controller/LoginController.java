@@ -1,7 +1,7 @@
 package com.gania.jonh.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gania.jonh.util.Server;
+import com.gania.jonh.util.ResourceUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -18,8 +18,7 @@ public class LoginController {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             String content = objectMapper.writeValueAsString(idField.getText());
-            Server server = new Server();
-            server.postRquest("/api/facade/save",content);
+            ResourceUtil.getInstance().post("/api/facade/save",content);
             idField.clear();
         }catch (IOException e) {
             e.printStackTrace();

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="com.gania.jonh.controller.CreateEmployeeController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="com.gania.jonh.employee.controller.CreateEmployeeController">
    <children>
       <GridPane layoutX="167.0" layoutY="99.0" prefHeight="202.0" prefWidth="267.0">
         <columnConstraints>

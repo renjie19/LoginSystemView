@@ -1,6 +1,6 @@
 package com.gania.jonh;
 
-import com.gania.jonh.controller.LoginController;
+import com.gania.jonh.login.controller.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

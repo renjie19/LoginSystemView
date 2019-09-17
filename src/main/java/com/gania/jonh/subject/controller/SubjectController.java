@@ -1,0 +1,121 @@
+package com.gania.jonh.subject.controller;
+
+import com.gania.jonh.Editable;
+import com.gania.jonh.Refreshable;
+import com.gania.jonh.subject.model.Subject;
+import com.gania.jonh.util.JsonMapper;
+import com.gania.jonh.util.ResourceUtil;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.*;
+
+public class SubjectController implements Editable {
+    private Refreshable refreshable;
+    private List<Subject> subjectList;
+    private Subject currentSubject;
+    @FXML
+    private TableView<Subject> subjectTable;
+    @FXML
+    private TableColumn<Subject, String> subjectColumn;
+    @FXML
+    private TextField subjectIdField;
+    @FXML
+    private TextField subjectNameField;
+
+    @FXML
+    void itemClicked(MouseEvent event) {
+        if(subjectTable.getSelectionModel().getSelectedIndex()>=0) {
+            int index = subjectTable.getSelectionModel().getSelectedIndex();
+            currentSubject = subjectTable.getItems().get(index);
+            fillInFields(currentSubject);
+        }
+    }
+
+    @FXML
+    void subjectDelete(ActionEvent event) {
+        if(currentSubject != null) {
+            try{
+                String content = JsonMapper.getInstance().writeValueAsString(currentSubject);
+                Map<String,String> map = new HashMap<>();
+                map.put("id",String.valueOf(currentSubject.getId()));
+                ResourceUtil.getInstance().delete("/api/subject/deleteById",map);
+                subjectList.remove(currentSubject);
+                addDataToTable(subjectList);
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    void subjectSave(ActionEvent event) {
+        List<Subject> subjects =  new ArrayList<>();
+        try{
+            for(Subject subject : subjectList) {
+                String content = JsonMapper.getInstance().writeValueAsString(subject);
+                String result = ResourceUtil.getInstance().post("/api/subject/save",content);
+                Subject resultSubject = JsonMapper.getInstance().readValue(result,Subject.class);
+                if(resultSubject != null) {
+                    subjects.add(resultSubject);
+                }
+            }
+            refreshable.refresh(event,subjects,this.getClass());
+            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void subjectAdd(ActionEvent event) {
+        if(!subjectIdField.getText().isEmpty() && !subjectNameField.getText().isEmpty()) {
+            currentSubject.setSubjectName(subjectNameField.getText());
+        }else if(!subjectNameField.getText().isEmpty()) {
+            Subject subject = new Subject();
+            subject.setSubjectName(subjectNameField.getText());
+            subjectList.add(subject);
+            addDataToTable(subjectList);
+            subjectNameField.clear();
+        }
+    }
+
+    @FXML
+    void clearClicked(ActionEvent event) {
+        subjectIdField.clear();
+        subjectNameField.clear();
+    }
+
+    private void fillInFields(Subject subject) {
+        subjectIdField.setText(String.valueOf(subject.getId()));
+        subjectNameField.setText(subject.getSubjectName());
+    }
+
+    private void addDataToTable(List<Subject> subjects) {
+        ObservableList<Subject> subjectObservableList = FXCollections.observableArrayList(subjects);
+        subjectColumn.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
+        subjectTable.setItems(subjectObservableList);
+    }
+
+    @Override
+    public void setCurrentController(Refreshable viewEmployeeController) {
+        this.refreshable = viewEmployeeController;
+    }
+
+    @Override
+    public void setData(List list) {
+        this.subjectList = list;
+        addDataToTable(subjectList);
+    }
+}

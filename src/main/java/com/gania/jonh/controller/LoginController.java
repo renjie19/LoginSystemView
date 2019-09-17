@@ -15,13 +15,15 @@ public class LoginController {
 
     @FXML
     void submitClicked(ActionEvent event) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String content = objectMapper.writeValueAsString(idField.getText());
-            ResourceUtil.getInstance().post("/api/facade/save",content);
-            idField.clear();
-        }catch (IOException e) {
-            e.printStackTrace();
+        if(!idField.getText().isEmpty()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                String content = objectMapper.writeValueAsString(idField.getText());
+                ResourceUtil.getInstance().post("/api/facade/save",content);
+                idField.clear();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

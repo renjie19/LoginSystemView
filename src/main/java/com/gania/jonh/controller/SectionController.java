@@ -41,35 +41,41 @@ public class SectionController {
 
     @FXML
     void itemClicked(MouseEvent event) {
-        int index = sectionTable.getSelectionModel().getSelectedIndex();
-        currentSection = sectionTable.getItems().get(index);
-        fillSectionFields(currentSection);
+        if(sectionTable.getSelectionModel().getSelectedIndex()>=0) {
+            int index = sectionTable.getSelectionModel().getSelectedIndex();
+            currentSection = sectionTable.getItems().get(index);
+            fillSectionFields(currentSection);
+        }
     }
 
     @FXML
     void sectionAdd(ActionEvent event) {
-        Section section = new Section();
-        section.setSectionName(sectionNameField.getText());
-        section.setYearLevel(yearField.getText());
-        if(!section.getSectionName().equals("")) {
-            sectionList.add(section);
+        if(!sectionNameField.getText().isEmpty() && !yearField.getText().isEmpty()) {
+            Section section = new Section();
+            section.setSectionName(sectionNameField.getText());
+            section.setYearLevel(yearField.getText());
+            if(!section.getSectionName().equals("")) {
+                sectionList.add(section);
+            }
+            addDataToTable(sectionList);
+            sectionNameField.clear();
         }
-        addDataToTable(sectionList);
-        sectionNameField.clear();
     }
 
     @FXML
     void sectionDelete(ActionEvent event) {
-        try{
-            objectMapper = getObjectMapper();
-            String content = objectMapper.writeValueAsString(currentSection);
-            Map<String,String> map = new HashMap<>();
-            map.put("id",String.valueOf(currentSection.getSectionId()));
-            ResourceUtil.getInstance().delete("/api/section/deleteById",map);
-            sectionList.remove(currentSection);
-            addDataToTable(sectionList);
-        }catch (IOException e) {
-            e.printStackTrace();
+        if(currentSection != null) {
+            try{
+                objectMapper = getObjectMapper();
+                String content = objectMapper.writeValueAsString(currentSection);
+                Map<String,String> map = new HashMap<>();
+                map.put("id",String.valueOf(currentSection.getSectionId()));
+                ResourceUtil.getInstance().delete("/api/section/deleteById",map);
+                sectionList.remove(currentSection);
+                addDataToTable(sectionList);
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

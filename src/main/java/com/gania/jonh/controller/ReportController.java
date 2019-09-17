@@ -5,6 +5,8 @@ import com.gania.jonh.model.Employee;
 import com.gania.jonh.model.Report;
 import com.gania.jonh.model.TimeLog;
 import com.gania.jonh.util.ResourceUtil;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +23,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class ReportController {
-    private Report currentReport;
     @FXML
     private TextField employeeNameField;
     @FXML
@@ -64,8 +65,8 @@ public class ReportController {
     private void addDataToReportTable(List<Report> reportList) {
         ObservableList<Report> reportObservableList = FXCollections.observableArrayList(reportList);
         dateColumn.setCellValueFactory(new PropertyValueFactory<Report, String>("date"));
-        timeInColumn.setCellValueFactory(new PropertyValueFactory<Report,String>("timeIn"));
-        timeOutColumn.setCellValueFactory(new PropertyValueFactory<Report,String>("timeOut"));
+        timeInColumn.setCellValueFactory(new PropertyValueFactory<Report,String>("timeInLog"));
+        timeOutColumn.setCellValueFactory(new PropertyValueFactory<Report,String>("timeOutLog"));
         totalHoursColumn.setCellValueFactory(new PropertyValueFactory<Report,Double>("totalHours"));
         reportTable.setItems(reportObservableList);
         double totalHours = 0;
@@ -76,20 +77,22 @@ public class ReportController {
     }
     @FXML
     void itemClicked(MouseEvent event) {
-        int index = reportTable.getSelectionModel().getSelectedIndex();
-        currentReport = reportTable.getItems().get(index);
-        try{
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/TimeLog.fxml"));
-            AnchorPane anchorPane = loader.load();
-            TimeLogController timeLogController = loader.getController();
-            timeLogController.setReportController(this);
-            timeLogController.setReport(currentReport);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(anchorPane));
-            stage.show();
-        }catch (IOException e) {
-            e.printStackTrace();
+        if(reportTable.getSelectionModel().getSelectedIndex()>=0) {
+            int index = reportTable.getSelectionModel().getSelectedIndex();
+            Report currentReport = reportTable.getItems().get(index);
+            try{
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/fxml/TimeLog.fxml"));
+                AnchorPane anchorPane = loader.load();
+                TimeLogController timeLogController = loader.getController();
+                timeLogController.setReportController(this);
+                timeLogController.setReport(currentReport);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(anchorPane));
+                stage.show();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

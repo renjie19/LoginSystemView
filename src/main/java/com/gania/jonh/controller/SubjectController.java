@@ -34,23 +34,27 @@ public class SubjectController {
 
     @FXML
     void itemClicked(MouseEvent event) {
-        int index = subjectTable.getSelectionModel().getSelectedIndex();
-        currentSubject = subjectTable.getItems().get(index);
-        fillInFields(currentSubject);
+        if(subjectTable.getSelectionModel().getSelectedIndex()>=0) {
+            int index = subjectTable.getSelectionModel().getSelectedIndex();
+            currentSubject = subjectTable.getItems().get(index);
+            fillInFields(currentSubject);
+        }
     }
 
     @FXML
     void subjectDelete(ActionEvent event) {
-        try{
-            objectMapper = getObjectMapper();
-            String content = objectMapper.writeValueAsString(currentSubject);
-            Map<String,String> map = new HashMap<>();
-            map.put("id",String.valueOf(currentSubject.getId()));
-            ResourceUtil.getInstance().delete("/api/subject/deleteById",map);
-            subjectList.remove(currentSubject);
-            addDataToTable(subjectList);
-        }catch (IOException e) {
-            e.printStackTrace();
+        if(currentSubject != null) {
+            try{
+                objectMapper = getObjectMapper();
+                String content = objectMapper.writeValueAsString(currentSubject);
+                Map<String,String> map = new HashMap<>();
+                map.put("id",String.valueOf(currentSubject.getId()));
+                ResourceUtil.getInstance().delete("/api/subject/deleteById",map);
+                subjectList.remove(currentSubject);
+                addDataToTable(subjectList);
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -78,13 +82,15 @@ public class SubjectController {
 
     @FXML
     void subjectAdd(ActionEvent event) {
-        Subject subject = new Subject();
-        subject.setSubjectName(subjectNameField.getText());
-        if(!subject.getSubjectName().equals("")) {
+        if(!subjectIdField.getText().isEmpty() && !subjectNameField.getText().isEmpty()) {
+            currentSubject.setSubjectName(subjectNameField.getText());
+        }else if(!subjectNameField.getText().isEmpty()) {
+            Subject subject = new Subject();
+            subject.setSubjectName(subjectNameField.getText());
             subjectList.add(subject);
+            addDataToTable(subjectList);
+            subjectNameField.clear();
         }
-        addDataToTable(subjectList);
-        subjectNameField.clear();
     }
 
     @FXML

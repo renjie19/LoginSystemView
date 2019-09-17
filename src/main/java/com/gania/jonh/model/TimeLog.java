@@ -2,6 +2,9 @@ package com.gania.jonh.model;
 
 import com.gania.jonh.LoginView.util.StateEnum;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TimeLog {
     private int logId;
     private int employeeId;
@@ -38,5 +41,10 @@ public class TimeLog {
 
     public void setType(StateEnum type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return new SimpleDateFormat("HH:mm:ss").format(new Date(time));
     }
 }

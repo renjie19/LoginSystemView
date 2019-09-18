@@ -23,15 +23,14 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="343.0">
                <children>
-                  <TextField fx:id="subjectIdField" disable="true" editable="false" layoutX="103.0" layoutY="77.0" />
-                  <TextField fx:id="subjectNameField" layoutX="103.0" layoutY="130.0" />
-                  <Label layoutX="77.0" layoutY="81.0" text="ID" />
-                  <Label layoutX="60.0" layoutY="134.0" text="NAME" />
-                  <Button layoutX="14.0" layoutY="232.0" mnemonicParsing="false" onAction="#subjectSave" prefHeight="25.0" prefWidth="43.0" text="Save" />
-                  <Button layoutX="154.0" layoutY="163.0" mnemonicParsing="false" onAction="#subjectDelete" prefHeight="25.0" prefWidth="53.0" text="Delete" />
+                  <TextField fx:id="subjectIdField" disable="true" editable="false" layoutX="83.0" layoutY="77.0" prefHeight="25.0" prefWidth="169.0" />
+                  <TextField fx:id="subjectNameField" layoutX="83.0" layoutY="130.0" prefHeight="25.0" prefWidth="169.0" />
+                  <Label layoutX="56.0" layoutY="77.0" text="ID" />
+                  <Label layoutX="39.0" layoutY="130.0" text="NAME" />
+                  <Button layoutX="150.0" layoutY="232.0" mnemonicParsing="false" onAction="#subjectDelete" prefHeight="25.0" prefWidth="59.0" text="Remove" />
                   <Label layoutX="114.0" layoutY="31.0" text="DETAILS" />
-                  <Button layoutX="104.0" layoutY="163.0" mnemonicParsing="false" onAction="#subjectAdd" prefHeight="25.0" prefWidth="43.0" text="Add" />
-                  <Button layoutX="212.0" layoutY="163.0" mnemonicParsing="false" onAction="#clearClicked" text="Clear" />
+                  <Button layoutX="103.0" layoutY="232.0" mnemonicParsing="false" onAction="#subjectAdd" prefHeight="25.0" prefWidth="43.0" text="Add" />
+                  <Button layoutX="212.0" layoutY="232.0" mnemonicParsing="false" onAction="#clearClicked" text="Clear" />
                </children>
             </AnchorPane>
         </items>

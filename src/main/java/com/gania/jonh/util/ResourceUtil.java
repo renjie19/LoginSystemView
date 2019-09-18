@@ -1,8 +1,8 @@
     package com.gania.jonh.util;
 
+import javafx.scene.control.Alert;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -11,8 +11,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import javax.swing.text.html.parser.Entity;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
@@ -38,8 +38,7 @@ import java.util.Map;
            HttpGet request = new HttpGet(url+urlRequest);
            request.setHeader("Content-Type", APPLICATION_JSON_UTF8);
            HttpResponse response = client.execute(request);
-           String result = EntityUtils.toString(response.getEntity(), "UTF-8");
-          return result;
+           return checkResponse(response);
        }catch (Exception e) {
            e.printStackTrace();
        }
@@ -52,8 +51,7 @@ import java.util.Map;
             post.setHeader("Content-Type", APPLICATION_JSON_UTF8);
             post.setEntity(new StringEntity(content,"UTF-8"));
             HttpResponse response = client.execute(post);
-            String result = EntityUtils.toString(response.getEntity(), "UTF-8");
-            return result;
+            return checkResponse(response);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,32 +60,49 @@ import java.util.Map;
 
     public String get(String urlRequest, Map<String,String> map) {
         try {
-            URIBuilder builder = new URIBuilder(url+urlRequest);
-            for(Map.Entry<String,String> content : map.entrySet()) {
-                builder.addParameter(content.getKey(),content.getValue());
-            }
-            HttpGet get = new HttpGet(builder.build());
+            HttpGet get = new HttpGet(UriBuilder(urlRequest,map));
             get.setHeader("Content-Type", APPLICATION_JSON_UTF8);
             HttpResponse response = client.execute(get);
-            String result = EntityUtils.toString(response.getEntity(),"UTF-8");
-            return result;
-        }catch (IOException|URISyntaxException e) {
+            return checkResponse(response);
+        }catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public String delete(String urlRequest, Map<String,String> map) {
+    public void delete(String urlRequest, Map<String,String> map) {
+        try{
+            HttpDelete delete = new HttpDelete(UriBuilder(urlRequest,map));
+            delete.setHeader("Content-Type", APPLICATION_JSON_UTF8);
+            HttpResponse response = client.execute(delete);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String checkResponse(HttpResponse response) {
+        try{
+            if(response.getStatusLine().getStatusCode() != 200) {
+                String result = EntityUtils.toString(response.getEntity(),"UTF-8");
+                ResourceServerResponse error = JsonMapper.getInstance().readValue(result,ResourceServerResponse.class);
+                AlertDialog.getInstance().showAlert(error.getMessage());
+            }else{
+                String result = EntityUtils.toString(response.getEntity(), "UTF-8");
+                return result;
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private URI UriBuilder(String urlRequest, Map<String,String> map) {
         try{
             URIBuilder builder = new URIBuilder(url+urlRequest);
             for(Map.Entry<String,String> content : map.entrySet()) {
                 builder.addParameter(content.getKey(),content.getValue());
             }
-            HttpDelete delete = new HttpDelete(builder.build());
-            delete.setHeader("Content-Type", APPLICATION_JSON_UTF8);
-            HttpResponse response = client.execute(delete);
-            String result = EntityUtils.toString(response.getEntity(),"UTF-8");
-            return result;
+            return builder.build();
         }catch (Exception e) {
             e.printStackTrace();
         }

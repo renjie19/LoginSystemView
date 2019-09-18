@@ -4,6 +4,7 @@ import com.gania.jonh.Editable;
 import com.gania.jonh.Refreshable;
 import com.gania.jonh.employee.model.Employee;
 import com.gania.jonh.report.model.Report;
+import com.gania.jonh.util.AlertDialog;
 import com.gania.jonh.util.JsonMapper;
 import com.gania.jonh.util.ResourceUtil;
 import javafx.collections.FXCollections;
@@ -58,7 +59,7 @@ public class ReportController implements Refreshable {
             setReportDates(reportList);
             addDataToReportTable(reportList);
         }catch (Exception e) {
-            e.printStackTrace();
+            AlertDialog.getInstance().showAlert(e.getMessage());
         }
     }
 

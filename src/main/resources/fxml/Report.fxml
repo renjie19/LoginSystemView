@@ -15,10 +15,9 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
                <children>
-                  <TextField fx:id="employeeNameField" layoutX="9.0" layoutY="99.0" prefHeight="25.0" prefWidth="174.0" />
+                  <TextField fx:id="employeeNameField" layoutX="9.0" layoutY="99.0" prefHeight="25.0" prefWidth="174.0" promptText="Employee Name" />
                   <DatePicker fx:id="startDateField" layoutX="9.0" layoutY="168.0" />
                   <DatePicker fx:id="endDateField" layoutX="9.0" layoutY="241.0" />
-                  <Label layoutX="53.0" layoutY="75.0" text="Employee Name" />
                   <Label layoutX="70.0" layoutY="151.0" text="Start Date" />
                   <Label layoutX="71.0" layoutY="218.0" text="End Date" />
                   <Button layoutX="60.0" layoutY="298.0" mnemonicParsing="false" onAction="#onSearchClick" prefHeight="25.0" prefWidth="72.0" text="Search" />

@@ -5,6 +5,7 @@ import com.gania.jonh.Refreshable;
 import com.gania.jonh.employee.model.Employee;
 import com.gania.jonh.license.model.License;
 import com.gania.jonh.subject.controller.SubjectController;
+import com.gania.jonh.util.AlertDialog;
 import com.gania.jonh.util.JsonMapper;
 import com.gania.jonh.util.ResourceUtil;
 import javafx.collections.FXCollections;
@@ -47,39 +48,43 @@ public class ViewEmployeeController implements Initializable, Refreshable {
 
     @FXML
     void deleteClicked(ActionEvent event) {
-        try{
-            Map<String,String> map = new HashMap<>();
-            map.put("id",String.valueOf(currentEmployee.getEmployeeId()));
-            String result = ResourceUtil.getInstance().delete("/api/employee/deleteEmployee",map);
-            loadTableData();
-        }catch (Exception e) {
-            e.printStackTrace();
+        if(currentEmployee != null ) {
+            try{
+                Map<String,String> map = new HashMap<>();
+                map.put("id",String.valueOf(currentEmployee.getEmployeeId()));
+                ResourceUtil.getInstance().delete("/api/employee/deleteEmployee",map);
+                loadTableData();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            fillInFields(null);
         }
-        fillInFields(null);
     }
 
     @FXML
     void updateClicked(ActionEvent event) {
-        try {
-            currentEmployee.setName(nameField.getText());
-            currentEmployee.setAge(Integer.parseInt(ageField.getText()));
-            currentEmployee.setAddress(addressField.getText());
-            currentEmployee.setPosition(positionField.getText());
-            currentEmployee.getLicense().setLicenseNumber(Integer.parseInt(licenseField.getText()));
-            currentEmployee.setLicense(saveLicense(currentEmployee.getLicense()));
-            String content = JsonMapper.getInstance().writeValueAsString(currentEmployee);
-            ResourceUtil.getInstance().post("/api/employee/update", content);
-            loadTableData();
-            fillInFields(null);
-        }catch (IOException e) {
-            e.printStackTrace();
+        if(currentEmployee != null) {
+            try {
+                currentEmployee.setName(nameField.getText());
+                currentEmployee.setAge(Integer.parseInt(ageField.getText()));
+                currentEmployee.setAddress(addressField.getText());
+                currentEmployee.setPosition(positionField.getText());
+                currentEmployee.getLicense().setLicenseNumber(Integer.parseInt(licenseField.getText()));
+                currentEmployee.setLicense(saveLicense(currentEmployee.getLicense()));
+                String content = JsonMapper.getInstance().writeValueAsString(currentEmployee);
+                ResourceUtil.getInstance().post("/api/employee/update", content);
+                loadTableData();
+                fillInFields(null);
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try{
-           loadTableData();
+            loadTableData();
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,35 +102,39 @@ public class ViewEmployeeController implements Initializable, Refreshable {
 
     @FXML
     void sectionClick(ActionEvent event) {
-        try{
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/Section.fxml"));
-            AnchorPane anchorPane = loader.load();
-            Editable sectionController = loader.getController();
-            sectionController.setCurrentController(this);
-            sectionController.setData(currentEmployee.getSectionList());
-            Stage stage = new Stage();
-            stage.setScene(new Scene(anchorPane));
-            stage.show();
-        }catch (IOException e) {
-            e.printStackTrace();
+        if(currentEmployee != null) {
+            try{
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/fxml/Section.fxml"));
+                AnchorPane anchorPane = loader.load();
+                Editable sectionController = loader.getController();
+                sectionController.setCurrentController(this);
+                sectionController.setData(currentEmployee.getSectionList());
+                Stage stage = new Stage();
+                stage.setScene(new Scene(anchorPane));
+                stage.show();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @FXML
     void subjectClick(ActionEvent event) {
-        try{
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/Subject.fxml"));
-            AnchorPane anchorPane = loader.load();
-            Editable subjectController = loader.getController();
-            subjectController.setCurrentController(this);
-            subjectController.setData(currentEmployee.getSubjectList());
-            Stage stage = new Stage();
-            stage.setScene(new Scene(anchorPane));
-            stage.show();
-        }catch (IOException e) {
-            e.printStackTrace();
+        if(currentEmployee != null) {
+            try{
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/fxml/Subject.fxml"));
+                AnchorPane anchorPane = loader.load();
+                Editable subjectController = loader.getController();
+                subjectController.setCurrentController(this);
+                subjectController.setData(currentEmployee.getSubjectList());
+                Stage stage = new Stage();
+                stage.setScene(new Scene(anchorPane));
+                stage.show();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -156,7 +165,6 @@ public class ViewEmployeeController implements Initializable, Refreshable {
             positionField.setText(employee.getPosition());
             licenseField.setText(String.valueOf(employee.getLicense().getLicenseNumber()));
         }
-
     }
 
     private void loadTableData() throws IOException{
@@ -176,5 +184,6 @@ public class ViewEmployeeController implements Initializable, Refreshable {
         }
         updateClicked(event);
         fillInFields(currentEmployee);
+
     }
 }

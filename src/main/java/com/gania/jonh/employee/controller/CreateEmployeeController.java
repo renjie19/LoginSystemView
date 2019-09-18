@@ -2,6 +2,7 @@ package com.gania.jonh.employee.controller;
 import com.gania.jonh.LoginSystem;
 import com.gania.jonh.employee.model.Employee;
 import com.gania.jonh.license.model.License;
+import com.gania.jonh.util.AlertDialog;
 import com.gania.jonh.util.JsonMapper;
 import com.gania.jonh.util.ResourceUtil;
 import javafx.event.ActionEvent;
@@ -14,16 +15,12 @@ import java.io.IOException;
 public class CreateEmployeeController {
     @FXML
     private TextField employeeNameField;
-
     @FXML
     private TextField ageField;
-
     @FXML
     private TextField positionField;
-
     @FXML
     private TextField addressField;
-
     @FXML
     private TextField licenseField;
 
@@ -54,12 +51,12 @@ public class CreateEmployeeController {
                 employeeClearClicked(new ActionEvent());
                 LoginSystem main = new LoginSystem();
                 main.showLogin();
-                alertBox("Added Success","Welcome "+employee.getName(),"Employee Id : "+employee.getEmployeeId());
+                AlertDialog.getInstance().showAlert("Add Success","Employee Id: "+employee.getEmployeeId());
             }catch (IOException e) {
                 e.printStackTrace();
             }
         }else {
-            alertBox("","Add Failed","Please fill in all fields");
+            AlertDialog.getInstance().showAlert("Add Failed","Fill in all required fields");
         }
     }
 
@@ -84,11 +81,4 @@ public class CreateEmployeeController {
         }
     }
 
-    private void alertBox(String title,String header,String context) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(context);
-        alert.showAndWait();
-    }
 }

@@ -51,16 +51,22 @@ public class SectionController implements Editable {
 
     @FXML
     void sectionAdd(ActionEvent event) {
-        if(!sectionNameField.getText().isEmpty() && !yearField.getText().isEmpty()) {
+        if(!sectionNameField.getText().isEmpty() && !yearField.getText().isEmpty() && !sectionIdField.getText().isEmpty()){
+            currentSection.setSectionName(sectionNameField.getText());
+            currentSection.setYearLevel(yearField.getText());
+            sectionIdField.clear();
+            sectionNameField.clear();
+            yearField.clear();
+        }else if(sectionIdField.getText().isEmpty() && !sectionNameField.getText().isEmpty() && !yearField.getText().isEmpty()) {
             Section section = new Section();
             section.setSectionName(sectionNameField.getText());
             section.setYearLevel(yearField.getText());
-            if(!section.getSectionName().equals("")) {
-                sectionList.add(section);
-            }
+            sectionList.add(section);
             addDataToTable(sectionList);
             sectionNameField.clear();
+            yearField.clear();
         }
+        sectionSave(event);
     }
 
     @FXML
@@ -75,30 +81,21 @@ public class SectionController implements Editable {
     }
 
     @FXML
-    void sectionSave(ActionEvent event) {
-        try{
-            List<Section> sections = new ArrayList<>();
-            for(Section section : sectionList) {
-                String content = JsonMapper.getInstance().writeValueAsString(section);
-                String result = ResourceUtil.getInstance().post("/api/section/save",content);
-                Section resultSection = JsonMapper.getInstance().readValue(result,Section.class);
-                if(resultSection != null) {
-                    sections.add(resultSection);
-                }
-            }
-            refreshable.refresh(event,sections,this.getClass());
-            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-        }catch (IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     void clearClicked(ActionEvent event) {
         sectionIdField.clear();
         sectionNameField.clear();
         yearField.clear();
+    }
+
+    @Override
+    public void setCurrentController(Refreshable controller) {
+        this.refreshable = controller;
+    }
+
+    @Override
+    public void setData(List list) {
+        this.sectionList = list;
+        addDataToTable(list);
     }
 
     private void addDataToTable(List<Section> sectionList) {
@@ -114,13 +111,20 @@ public class SectionController implements Editable {
         yearField.setText(section.getYearLevel());
     }
 
-    @Override
-    public void setCurrentController(Refreshable controller) {
-        this.refreshable = controller;
-    }
-
-    @Override
-    public void setData(List list) {
-        this.sectionList = list;
+    private void sectionSave(ActionEvent event) {
+        try{
+            List<Section> sections = new ArrayList<>();
+            for(Section section : sectionList) {
+                String content = JsonMapper.getInstance().writeValueAsString(section);
+                String result = ResourceUtil.getInstance().post("/api/section/save",content);
+                Section resultSection = JsonMapper.getInstance().readValue(result,Section.class);
+                if(resultSection != null) {
+                    sections.add(resultSection);
+                }
+            }
+            refreshable.refresh(event,sections,this.getClass());
+        }catch (IOException e ) {
+            e.printStackTrace();
+        }
     }
 }

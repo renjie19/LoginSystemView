@@ -15,7 +15,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.*;
@@ -46,12 +45,15 @@ public class SubjectController implements Editable {
     void subjectDelete(ActionEvent event) {
         if(currentSubject != null) {
             try{
-                String content = JsonMapper.getInstance().writeValueAsString(currentSubject);
-                Map<String,String> map = new HashMap<>();
-                map.put("id",String.valueOf(currentSubject.getId()));
-                ResourceUtil.getInstance().delete("/api/subject/deleteById",map);
-                subjectList.remove(currentSubject);
+                if(currentSubject.getId() != 0) {
+                    String content = JsonMapper.getInstance().writeValueAsString(currentSubject);
+                    Map<String,String> map = new HashMap<>();
+                    map.put("id",String.valueOf(currentSubject.getId()));
+                    ResourceUtil.getInstance().delete("/api/subject/deleteById",map);
+                    subjectList.remove(currentSubject);
+                }
                 addDataToTable(subjectList);
+                clearClicked(event);
             }catch (IOException e) {
                 e.printStackTrace();
             }
@@ -59,29 +61,10 @@ public class SubjectController implements Editable {
     }
 
     @FXML
-    void subjectSave(ActionEvent event) {
-        List<Subject> subjects =  new ArrayList<>();
-        try{
-            for(Subject subject : subjectList) {
-                String content = JsonMapper.getInstance().writeValueAsString(subject);
-                String result = ResourceUtil.getInstance().post("/api/subject/save",content);
-                Subject resultSubject = JsonMapper.getInstance().readValue(result,Subject.class);
-                if(resultSubject != null) {
-                    subjects.add(resultSubject);
-                }
-            }
-            refreshable.refresh(event,subjects,this.getClass());
-            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     void subjectAdd(ActionEvent event) {
         if(!subjectIdField.getText().isEmpty() && !subjectNameField.getText().isEmpty()) {
             currentSubject.setSubjectName(subjectNameField.getText());
+            subjectNameField.clear();
         }else if(!subjectNameField.getText().isEmpty()) {
             Subject subject = new Subject();
             subject.setSubjectName(subjectNameField.getText());
@@ -89,12 +72,24 @@ public class SubjectController implements Editable {
             addDataToTable(subjectList);
             subjectNameField.clear();
         }
+        subjectSave(event);
     }
 
     @FXML
     void clearClicked(ActionEvent event) {
         subjectIdField.clear();
         subjectNameField.clear();
+    }
+
+    @Override
+    public void setCurrentController(Refreshable viewEmployeeController) {
+        this.refreshable = viewEmployeeController;
+    }
+
+    @Override
+    public void setData(List list) {
+        this.subjectList = list;
+        addDataToTable(subjectList);
     }
 
     private void fillInFields(Subject subject) {
@@ -108,14 +103,20 @@ public class SubjectController implements Editable {
         subjectTable.setItems(subjectObservableList);
     }
 
-    @Override
-    public void setCurrentController(Refreshable viewEmployeeController) {
-        this.refreshable = viewEmployeeController;
-    }
-
-    @Override
-    public void setData(List list) {
-        this.subjectList = list;
-        addDataToTable(subjectList);
+    private void subjectSave(ActionEvent event) {
+        List<Subject> subjects =  new ArrayList<>();
+        try{
+            for(Subject subject : subjectList) {
+                String content = JsonMapper.getInstance().writeValueAsString(subject);
+                String result = ResourceUtil.getInstance().post("/api/subject/save",content);
+                Subject resultSubject = JsonMapper.getInstance().readValue(result,Subject.class);
+                if(resultSubject != null) {
+                    subjects.add(resultSubject);
+                }
+            }
+            refreshable.refresh(event,subjects,this.getClass());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

@@ -9,11 +9,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="com.gania.jonh.employee.controller.CreateEmployeeController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gania.jonh.employee.controller.CreateEmployeeController">
    <children>
       <GridPane layoutX="167.0" layoutY="99.0" prefHeight="202.0" prefWidth="267.0">
         <columnConstraints>
-          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="122.0" minWidth="10.0" prefWidth="57.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="254.0" minWidth="10.0" prefWidth="210.0" />
         </columnConstraints>
         <rowConstraints>
@@ -24,16 +23,11 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="NAME" />
-            <Label text="AGE" GridPane.rowIndex="1" />
-            <Label text="ADDRESS" GridPane.rowIndex="2" />
-            <Label text="POSITION" GridPane.rowIndex="3" />
-            <TextField fx:id="employeeNameField" GridPane.columnIndex="1" />
-            <TextField fx:id="ageField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="positionField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="addressField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="LICENSE" GridPane.rowIndex="4" />
-            <TextField fx:id="licenseField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="employeeNameField" promptText="Name" />
+            <TextField fx:id="ageField" promptText="Age" GridPane.rowIndex="1" />
+            <TextField fx:id="positionField" promptText="Position" GridPane.rowIndex="3" />
+            <TextField fx:id="addressField" promptText="Address" GridPane.rowIndex="2" />
+            <TextField fx:id="licenseField" promptText="License Number" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <ButtonBar layoutX="386.0" layoutY="346.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
@@ -42,5 +36,6 @@
             <Button mnemonicParsing="false" onAction="#employeeClearClicked" text="CLEAR" />
         </buttons>
       </ButtonBar>
+      <Label layoutX="248.0" layoutY="65.0" text="EMPLOYEE DETAILS" />
    </children>
 </AnchorPane>

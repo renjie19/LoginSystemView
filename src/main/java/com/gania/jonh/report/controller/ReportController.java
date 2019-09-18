@@ -64,7 +64,7 @@ public class ReportController implements Refreshable {
     }
 
     @FXML
-    void itemClicked(MouseEvent event) {
+    void onItemClick(MouseEvent event) {
         if(reportTable.getSelectionModel().getSelectedIndex()>=0) {
             int index = reportTable.getSelectionModel().getSelectedIndex();
             List<Report> reportList = new ArrayList<>();

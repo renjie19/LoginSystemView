@@ -1,14 +1,9 @@
 package com.gania.jonh.section.model;
 
-import com.gania.jonh.employee.model.Employee;
-
-import java.util.List;
-
 public class Section {
     private int sectionId;
     private String sectionName;
     private String yearLevel;
-    private List<Employee> employeeList;
 
     public int getSectionId() {
         return sectionId;
@@ -32,13 +27,5 @@ public class Section {
 
     public void setYearLevel(String yearLevel) {
         this.yearLevel = yearLevel;
-    }
-
-    public List<Employee> getEmployeeList() {
-        return employeeList;
-    }
-
-    public void setEmployeeList(List<Employee> employeeList) {
-        this.employeeList = employeeList;
     }
 }

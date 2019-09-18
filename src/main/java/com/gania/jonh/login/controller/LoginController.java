@@ -14,7 +14,7 @@ public class LoginController {
     private TextField idField;
 
     @FXML
-    void submitClicked(ActionEvent event) {
+    void onSubmitClick(ActionEvent event) {
         if(!idField.getText().isEmpty()) {
             try {
                 String content = JsonMapper.getInstance().writeValueAsString(idField.getText());

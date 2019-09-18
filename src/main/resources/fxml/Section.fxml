@@ -14,7 +14,7 @@
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="163.0">
                <children>
-                  <TableView fx:id="sectionTable" layoutX="14.0" layoutY="54.0" onMouseClicked="#itemClicked" prefHeight="398.0" prefWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="sectionTable" layoutX="14.0" layoutY="54.0" onMouseClicked="#onItemClick" prefHeight="398.0" prefWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="sectionNameColumn" resizable="false" text="Name" />
                         <TableColumn fx:id="yearColumn" prefWidth="81.0" text="Year Level" />
@@ -28,12 +28,12 @@
                   <TextField fx:id="sectionNameField" layoutX="83.0" layoutY="96.0" />
                   <Label layoutX="57.0" layoutY="47.0" text="ID" />
                   <Label layoutX="40.0" layoutY="100.0" text="NAME" />
-                  <Button layoutX="155.0" layoutY="232.0" mnemonicParsing="false" onAction="#sectionDelete" prefHeight="25.0" prefWidth="53.0" text="Delete" />
+                  <Button layoutX="155.0" layoutY="232.0" mnemonicParsing="false" onAction="#onSectionDeleteClick" prefHeight="25.0" prefWidth="53.0" text="Delete" />
                   <Label layoutX="114.0" layoutY="14.0" text="DETAILS" />
-                  <Button layoutX="110.0" layoutY="232.0" mnemonicParsing="false" onAction="#sectionAdd" text="Add" />
+                  <Button layoutX="110.0" layoutY="232.0" mnemonicParsing="false" onAction="#onSectionAddClick" text="Add" />
                   <TextField fx:id="yearField" layoutX="84.0" layoutY="143.0" />
                   <Label layoutX="14.0" layoutY="147.0" text="YEAR LEVEL" />
-                  <Button layoutX="214.0" layoutY="232.0" mnemonicParsing="false" onAction="#clearClicked" text="Clear" />
+                  <Button layoutX="214.0" layoutY="232.0" mnemonicParsing="false" onAction="#onClearClick" text="Clear" />
                </children>
             </AnchorPane>
          </items>

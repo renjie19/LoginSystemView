@@ -29,7 +29,7 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
                            <children>
-                              <TableView fx:id="reportTable" layoutX="35.0" layoutY="14.0" onMouseClicked="#itemClicked" prefHeight="345.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="reportTable" layoutX="35.0" layoutY="14.0" onMouseClicked="#onItemClick" prefHeight="345.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="dateColumn" prefWidth="99.0" resizable="false" text="Date" />
                                   <TableColumn fx:id="timeInColumn" prefWidth="110.0" resizable="false" text="Time In" />

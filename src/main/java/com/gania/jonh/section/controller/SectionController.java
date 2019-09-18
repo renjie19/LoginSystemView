@@ -9,13 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public class SectionController implements Editable {
     private TextField yearField;
 
     @FXML
-    void itemClicked(MouseEvent event) {
+    void onItemClick(MouseEvent event) {
         if(sectionTable.getSelectionModel().getSelectedIndex()>=0) {
             int index = sectionTable.getSelectionModel().getSelectedIndex();
             currentSection = sectionTable.getItems().get(index);
@@ -50,7 +48,7 @@ public class SectionController implements Editable {
     }
 
     @FXML
-    void sectionAdd(ActionEvent event) {
+    void onSectionAddClick(ActionEvent event) {
         if(!sectionNameField.getText().isEmpty() && !yearField.getText().isEmpty() && !sectionIdField.getText().isEmpty()){
             currentSection.setSectionName(sectionNameField.getText());
             currentSection.setYearLevel(yearField.getText());
@@ -70,7 +68,7 @@ public class SectionController implements Editable {
     }
 
     @FXML
-    void sectionDelete(ActionEvent event) {
+    void onSectionDeleteClick(ActionEvent event) {
         if(currentSection != null) {
             Map<String,String> map = new HashMap<>();
             map.put("id",String.valueOf(currentSection.getSectionId()));
@@ -81,7 +79,7 @@ public class SectionController implements Editable {
     }
 
     @FXML
-    void clearClicked(ActionEvent event) {
+    void onClearClick(ActionEvent event) {
         sectionIdField.clear();
         sectionNameField.clear();
         yearField.clear();

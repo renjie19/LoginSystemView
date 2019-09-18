@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -33,7 +32,7 @@ public class SubjectController implements Editable {
     private TextField subjectNameField;
 
     @FXML
-    void itemClicked(MouseEvent event) {
+    void onItemClick(MouseEvent event) {
         if(subjectTable.getSelectionModel().getSelectedIndex()>=0) {
             int index = subjectTable.getSelectionModel().getSelectedIndex();
             currentSubject = subjectTable.getItems().get(index);
@@ -42,7 +41,7 @@ public class SubjectController implements Editable {
     }
 
     @FXML
-    void subjectDelete(ActionEvent event) {
+    void onSubjectDeleteClick(ActionEvent event) {
         if(currentSubject != null) {
             try{
                 if(currentSubject.getId() != 0) {
@@ -53,7 +52,7 @@ public class SubjectController implements Editable {
                     subjectList.remove(currentSubject);
                 }
                 addDataToTable(subjectList);
-                clearClicked(event);
+                onClearClick(event);
             }catch (IOException e) {
                 e.printStackTrace();
             }
@@ -61,7 +60,7 @@ public class SubjectController implements Editable {
     }
 
     @FXML
-    void subjectAdd(ActionEvent event) {
+    void onSubjectAddClick(ActionEvent event) {
         if(!subjectIdField.getText().isEmpty() && !subjectNameField.getText().isEmpty()) {
             currentSubject.setSubjectName(subjectNameField.getText());
             subjectNameField.clear();
@@ -76,7 +75,7 @@ public class SubjectController implements Editable {
     }
 
     @FXML
-    void clearClicked(ActionEvent event) {
+    void onClearClick(ActionEvent event) {
         subjectIdField.clear();
         subjectNameField.clear();
     }

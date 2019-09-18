@@ -25,22 +25,20 @@ public class TimeLogController implements Editable {
     private Refreshable refreshable;
     private Report currentReport;
     @FXML
-    private TextField inField;
-
+    private TextField timeInField;
     @FXML
-    private TextField outField;
-
+    private TextField timeOutField;
     @FXML
     private Label emptyLabel;
 
     @FXML
-    void timeLogSaveClick(ActionEvent event) {
-        if(!inField.getText().isEmpty() && !outField.getText().isEmpty()) {
+    void onTimeLogSaveClick(ActionEvent event) {
+        if(!timeInField.getText().isEmpty() && !timeOutField.getText().isEmpty()) {
             try {
                 emptyLabel.setText(null);
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                long newTimeIn = dateFormat.parse(currentReport.getDate()+" "+inField.getText()).getTime();
-                long newTimeOut = dateFormat.parse(currentReport.getDate()+" "+outField.getText()).getTime();
+                long newTimeIn = dateFormat.parse(currentReport.getDate()+" "+ timeInField.getText()).getTime();
+                long newTimeOut = dateFormat.parse(currentReport.getDate()+" "+ timeOutField.getText()).getTime();
                 currentReport.getTimeInLog().setTime(newTimeIn);
                 if(currentReport.getTimeOutLog()==null) {
                     createTimeOutLog(newTimeOut);
@@ -81,10 +79,10 @@ public class TimeLogController implements Editable {
     public void setData(List dataList) {
         this.currentReport = (Report)dataList.get(0);
         String timeIn = new SimpleDateFormat("HH:mm:ss").format(new Date(currentReport.getTimeInLog().getTime()));
-        inField.setText(timeIn);
+        timeInField.setText(timeIn);
         if(currentReport.getTimeOutLog() != null) {
             String timeOut = new SimpleDateFormat("HH:mm:ss").format(new Date(currentReport.getTimeOutLog().getTime()));
-            outField.setText(timeOut);
+            timeOutField.setText(timeOut);
         }
     }
 

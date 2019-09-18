@@ -77,12 +77,12 @@
                   <Label layoutX="162.0" layoutY="14.0" text="EMPLOYEE DETAILS" />
                   <ButtonBar layoutX="226.0" layoutY="423.0" prefHeight="17.0" prefWidth="200.0">
                     <buttons>
-                        <Button mnemonicParsing="false" onAction="#updateClicked" prefHeight="11.0" text="UPDATE" />
-                        <Button mnemonicParsing="false" onAction="#deleteClicked" text="DELETE" />
+                        <Button mnemonicParsing="false" onAction="#onUpdateClick" prefHeight="11.0" text="UPDATE" />
+                        <Button mnemonicParsing="false" onAction="#onDeleteClick" text="DELETE" />
                     </buttons>
                   </ButtonBar>
-                  <Button layoutX="146.0" layoutY="237.0" mnemonicParsing="false" onAction="#subjectClick" text="View Subjects" />
-                  <Button layoutX="274.0" layoutY="237.0" mnemonicParsing="false" onAction="#sectionClick" text="View Sections" />
+                  <Button layoutX="146.0" layoutY="237.0" mnemonicParsing="false" onAction="#onSubjectClick" text="View Subjects" />
+                  <Button layoutX="274.0" layoutY="237.0" mnemonicParsing="false" onAction="#onSectionClick" text="View Sections" />
                </children>
             </AnchorPane>
         </items>

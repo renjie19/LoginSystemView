@@ -7,7 +7,6 @@ import com.gania.jonh.util.JsonMapper;
 import com.gania.jonh.util.ResourceUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -25,7 +24,7 @@ public class CreateEmployeeController {
     private TextField licenseField;
 
     @FXML
-    void employeeClearClicked(ActionEvent event) {
+    void onEmployeeClearClick(ActionEvent event) {
         employeeNameField.clear();
         ageField.clear();
         positionField.clear();
@@ -34,7 +33,7 @@ public class CreateEmployeeController {
     }
 
     @FXML
-    void employeeSaveClicked(ActionEvent event) {
+    void onEmployeeSaveClick(ActionEvent event) {
         if(!allRequiredFieldHasValue()) {
             try {
                 Employee employee = new Employee();
@@ -48,7 +47,7 @@ public class CreateEmployeeController {
                 String content = JsonMapper.getInstance().writeValueAsString(employee);
                 String employeeResult = ResourceUtil.getInstance().post("/api/employee/save",content);
                 employee = JsonMapper.getInstance().readValue(employeeResult,Employee.class);
-                employeeClearClicked(new ActionEvent());
+                onEmployeeClearClick(new ActionEvent());
                 LoginSystem main = new LoginSystem();
                 main.showLogin();
                 AlertDialog.getInstance().showAlert("Add Success","Employee Id: "+employee.getEmployeeId());

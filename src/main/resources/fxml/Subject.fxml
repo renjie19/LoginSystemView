@@ -14,7 +14,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="163.0">
                <children>
-                  <TableView fx:id="subjectTable" layoutX="14.0" layoutY="54.0" onMouseClicked="#itemClicked" prefHeight="398.0" prefWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="subjectTable" layoutX="14.0" layoutY="54.0" onMouseClicked="#onItemClick" prefHeight="398.0" prefWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="subjectColumn" prefWidth="160.0" resizable="false" text="ITEMS" />
                     </columns>
@@ -27,10 +27,10 @@
                   <TextField fx:id="subjectNameField" layoutX="83.0" layoutY="130.0" prefHeight="25.0" prefWidth="169.0" />
                   <Label layoutX="56.0" layoutY="77.0" text="ID" />
                   <Label layoutX="39.0" layoutY="130.0" text="NAME" />
-                  <Button layoutX="150.0" layoutY="232.0" mnemonicParsing="false" onAction="#subjectDelete" prefHeight="25.0" prefWidth="59.0" text="Remove" />
+                  <Button layoutX="150.0" layoutY="232.0" mnemonicParsing="false" onAction="#onSubjectDeleteClick" prefHeight="25.0" prefWidth="59.0" text="Remove" />
                   <Label layoutX="114.0" layoutY="31.0" text="DETAILS" />
-                  <Button layoutX="103.0" layoutY="232.0" mnemonicParsing="false" onAction="#subjectAdd" prefHeight="25.0" prefWidth="43.0" text="Add" />
-                  <Button layoutX="212.0" layoutY="232.0" mnemonicParsing="false" onAction="#clearClicked" text="Clear" />
+                  <Button layoutX="103.0" layoutY="232.0" mnemonicParsing="false" onAction="#onSubjectAddClick" prefHeight="25.0" prefWidth="43.0" text="Add" />
+                  <Button layoutX="212.0" layoutY="232.0" mnemonicParsing="false" onAction="#onClearClick" text="Clear" />
                </children>
             </AnchorPane>
         </items>

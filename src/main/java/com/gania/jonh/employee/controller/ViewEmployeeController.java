@@ -5,7 +5,6 @@ import com.gania.jonh.Refreshable;
 import com.gania.jonh.employee.model.Employee;
 import com.gania.jonh.license.model.License;
 import com.gania.jonh.subject.controller.SubjectController;
-import com.gania.jonh.util.AlertDialog;
 import com.gania.jonh.util.JsonMapper;
 import com.gania.jonh.util.ResourceUtil;
 import javafx.collections.FXCollections;
@@ -47,7 +46,7 @@ public class ViewEmployeeController implements Initializable, Refreshable {
     private TextField idField;
 
     @FXML
-    void deleteClicked(ActionEvent event) {
+    void onDeleteClick(ActionEvent event) {
         if(currentEmployee != null ) {
             try{
                 Map<String,String> map = new HashMap<>();
@@ -62,7 +61,7 @@ public class ViewEmployeeController implements Initializable, Refreshable {
     }
 
     @FXML
-    void updateClicked(ActionEvent event) {
+    void onUpdateClick(ActionEvent event) {
         if(currentEmployee != null) {
             try {
                 currentEmployee.setName(nameField.getText());
@@ -101,7 +100,7 @@ public class ViewEmployeeController implements Initializable, Refreshable {
     }
 
     @FXML
-    void sectionClick(ActionEvent event) {
+    void onSectionClick(ActionEvent event) {
         if(currentEmployee != null) {
             try{
                 FXMLLoader loader = new FXMLLoader();
@@ -120,7 +119,7 @@ public class ViewEmployeeController implements Initializable, Refreshable {
     }
 
     @FXML
-    void subjectClick(ActionEvent event) {
+    void onSubjectClick(ActionEvent event) {
         if(currentEmployee != null) {
             try{
                 FXMLLoader loader = new FXMLLoader();
@@ -182,8 +181,7 @@ public class ViewEmployeeController implements Initializable, Refreshable {
         }else{
             currentEmployee.setSectionList(list);
         }
-        updateClicked(event);
+        onUpdateClick(event);
         fillInFields(currentEmployee);
-
     }
 }

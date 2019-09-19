@@ -19,9 +19,9 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
                <children>
-                  <TableView fx:id="tableView" layoutY="58.0" onMouseClicked="#onCellClick" prefHeight="398.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="employeeTable" layoutY="58.0" onMouseClicked="#onCellClick" prefHeight="398.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="employeeName" prefWidth="166.0" text="Employee" />
+                      <TableColumn fx:id="employeeNameColumn" prefWidth="166.0" text="Employee" />
                     </columns>
                   </TableView>
                </children>

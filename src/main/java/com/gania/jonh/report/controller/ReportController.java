@@ -3,15 +3,15 @@ package com.gania.jonh.report.controller;
 import com.gania.jonh.Editable;
 import com.gania.jonh.Refreshable;
 import com.gania.jonh.employee.model.Employee;
+import com.gania.jonh.report.ReportResourceController;
 import com.gania.jonh.report.model.Report;
 import com.gania.jonh.util.AlertDialog;
-import com.gania.jonh.util.JsonMapper;
-import com.gania.jonh.util.ResourceUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,10 +20,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ReportController implements Refreshable {
+public class ReportController implements Initializable,Refreshable {
     @FXML
     private TextField employeeNameField;
     @FXML
@@ -42,22 +43,25 @@ public class ReportController implements Refreshable {
     private TableColumn<Report, Double> totalHoursColumn;
     @FXML
     private Label overAllHours;
+    @FXML
+    private TableView<Employee> employeeTable;
+    @FXML
+    private TableColumn<Employee, String> employeeNameColumn;
+    private Employee currentEmployee;
+
+    @FXML
+    void onEmployeeColumnClick(MouseEvent event) {
+        int index = employeeTable.getSelectionModel().getSelectedIndex();
+        currentEmployee = employeeTable.getItems().get(index);
+        employeeNameField.setText(currentEmployee.getName());
+    }
 
     @FXML
     void onSearchClick(ActionEvent event) {
         try{
-            Map<String,String> map = new HashMap<>();
-            map.put("name",employeeNameField.getText());
-            String content = ResourceUtil.getInstance().get("/api/employee/getByName",map);
-            Employee employee = JsonMapper.getInstance().readValue(content,Employee.class);
-            map.clear();
-            map.put("id",String.valueOf(employee.getEmployeeId()));
-            map.put("startDate",startDateField.getValue().toString());
-            map.put("endDate",endDateField.getValue().toString());
-            content = ResourceUtil.getInstance().get("/api/report/viewByEmployeeId",map);
-            List<Report> reportList =  Arrays.asList(JsonMapper.getInstance().readValue(content, Report[].class));
-            setReportDates(reportList);
-            addDataToReportTable(reportList);
+            List<Report> reports = new ReportResourceController().getReports(currentEmployee.getEmployeeId(),
+                    startDateField.getValue().toString(),endDateField.getValue().toString());
+            addDataToReportTable(reports);
         }catch (Exception e) {
             AlertDialog.getInstance().showAlert(e.getMessage());
         }
@@ -91,6 +95,14 @@ public class ReportController implements Refreshable {
         employeeNameField.requestFocus();
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        List<Employee> employees = new ReportResourceController().getAllEmployees();
+        ObservableList<Employee> employeeList = FXCollections.observableArrayList(employees);
+        employeeNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        employeeTable.setItems(employeeList);
+    }
+
     private void addDataToReportTable(List<Report> reportList) {
         ObservableList<Report> reportObservableList = FXCollections.observableArrayList(reportList);
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -102,12 +114,6 @@ public class ReportController implements Refreshable {
         for(Report results : reportObservableList) {
             totalHours = totalHours + results.getTotalHours();
         }
-        overAllHours.setText(String.valueOf(totalHours));
-    }
-
-    private void setReportDates(List<Report> list) {
-        for(Report report : list) {
-            report.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date(report.getTimeInLog().getTime())));
-        }
+        overAllHours.setText(String.format("%.2f",totalHours));
     }
 }

@@ -1,6 +1,5 @@
 package com.gania.jonh;
 
-import com.gania.jonh.login.controller.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,12 +10,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LoginSystem extends Application {
-    private LoginController loginController;
     private static BorderPane root;
     private Stage stage;
     public static void main(String[] args) {
         Application.launch(args);
     }
+
     @Override
     public void start(Stage primaryStage) {
         this.stage = primaryStage;
@@ -25,7 +24,7 @@ public class LoginSystem extends Application {
         showLogin();
     }
 
-    public void initialize() {
+    private void initialize() {
         try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/RootLayout.fxml"));

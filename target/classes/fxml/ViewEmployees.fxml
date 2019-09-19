@@ -19,9 +19,9 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
                <children>
-                  <TableView fx:id="tableView" layoutY="58.0" onMouseClicked="#onCellClick" prefHeight="398.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="employeeTable" layoutY="58.0" onMouseClicked="#onCellClick" prefHeight="398.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="employeeName" prefWidth="166.0" text="Employee" />
+                      <TableColumn fx:id="employeeNameColumn" prefWidth="166.0" text="Employee" />
                     </columns>
                   </TableView>
                </children>
@@ -77,12 +77,12 @@
                   <Label layoutX="162.0" layoutY="14.0" text="EMPLOYEE DETAILS" />
                   <ButtonBar layoutX="226.0" layoutY="423.0" prefHeight="17.0" prefWidth="200.0">
                     <buttons>
-                        <Button mnemonicParsing="false" onAction="#updateClicked" prefHeight="11.0" text="UPDATE" />
-                        <Button mnemonicParsing="false" onAction="#deleteClicked" text="DELETE" />
+                        <Button mnemonicParsing="false" onAction="#onUpdateClick" prefHeight="11.0" text="UPDATE" />
+                        <Button mnemonicParsing="false" onAction="#onDeleteClick" text="DELETE" />
                     </buttons>
                   </ButtonBar>
-                  <Button layoutX="146.0" layoutY="237.0" mnemonicParsing="false" onAction="#subjectClick" text="View Subjects" />
-                  <Button layoutX="274.0" layoutY="237.0" mnemonicParsing="false" onAction="#sectionClick" text="View Sections" />
+                  <Button layoutX="146.0" layoutY="237.0" mnemonicParsing="false" onAction="#onSubjectClick" text="View Subjects" />
+                  <Button layoutX="274.0" layoutY="237.0" mnemonicParsing="false" onAction="#onSectionClick" text="View Sections" />
                </children>
             </AnchorPane>
         </items>

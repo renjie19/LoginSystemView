@@ -2,6 +2,7 @@ package com.gania.jonh.subject.controller;
 
 import com.gania.jonh.Editable;
 import com.gania.jonh.Refreshable;
+import com.gania.jonh.subject.SubjectResourceController;
 import com.gania.jonh.subject.model.Subject;
 import com.gania.jonh.util.JsonMapper;
 import com.gania.jonh.util.ResourceUtil;
@@ -42,20 +43,9 @@ public class SubjectController implements Editable {
 
     @FXML
     void onSubjectDeleteClick(ActionEvent event) {
-        if(currentSubject != null) {
-            try{
-                if(currentSubject.getId() != 0) {
-                    String content = JsonMapper.getInstance().writeValueAsString(currentSubject);
-                    Map<String,String> map = new HashMap<>();
-                    map.put("id",String.valueOf(currentSubject.getId()));
-                    ResourceUtil.getInstance().delete("/api/subject/deleteById",map);
-                    subjectList.remove(currentSubject);
-                }
-                addDataToTable(subjectList);
-                onClearClick(event);
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
+        if(currentSubject != null || currentSubject.getId() != 0) {
+            new SubjectResourceController().delete(currentSubject);
+            subjectList.remove(currentSubject);
         }
     }
 
@@ -103,19 +93,6 @@ public class SubjectController implements Editable {
     }
 
     private void subjectSave(ActionEvent event) {
-        List<Subject> subjects =  new ArrayList<>();
-        try{
-            for(Subject subject : subjectList) {
-                String content = JsonMapper.getInstance().writeValueAsString(subject);
-                String result = ResourceUtil.getInstance().post("/api/subject/save",content);
-                Subject resultSubject = JsonMapper.getInstance().readValue(result,Subject.class);
-                if(resultSubject != null) {
-                    subjects.add(resultSubject);
-                }
-            }
-            refreshable.refresh(event,subjects,this.getClass());
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        refreshable.refresh(event,subjectList,this.getClass());
     }
 }

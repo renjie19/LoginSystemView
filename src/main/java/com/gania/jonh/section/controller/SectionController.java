@@ -2,6 +2,7 @@ package com.gania.jonh.section.controller;
 
 import com.gania.jonh.Editable;
 import com.gania.jonh.Refreshable;
+import com.gania.jonh.section.SectionResourceController;
 import com.gania.jonh.section.model.Section;
 import com.gania.jonh.util.JsonMapper;
 import com.gania.jonh.util.ResourceUtil;
@@ -55,6 +56,7 @@ public class SectionController implements Editable {
             sectionIdField.clear();
             sectionNameField.clear();
             yearField.clear();
+            sectionSave(event,currentSection);
         }else if(sectionIdField.getText().isEmpty() && !sectionNameField.getText().isEmpty() && !yearField.getText().isEmpty()) {
             Section section = new Section();
             section.setSectionName(sectionNameField.getText());
@@ -63,16 +65,14 @@ public class SectionController implements Editable {
             addDataToTable(sectionList);
             sectionNameField.clear();
             yearField.clear();
+            sectionSave(event,section);
         }
-        sectionSave(event);
     }
 
     @FXML
     void onSectionDeleteClick(ActionEvent event) {
         if(currentSection != null) {
-            Map<String,String> map = new HashMap<>();
-            map.put("id",String.valueOf(currentSection.getSectionId()));
-            ResourceUtil.getInstance().delete("/api/section/deleteById",map);
+            new SectionResourceController().deleteSection(currentSection.getSectionId());
             sectionList.remove(currentSection);
             addDataToTable(sectionList);
         }
@@ -109,20 +109,7 @@ public class SectionController implements Editable {
         yearField.setText(section.getYearLevel());
     }
 
-    private void sectionSave(ActionEvent event) {
-        try{
-            List<Section> sections = new ArrayList<>();
-            for(Section section : sectionList) {
-                String content = JsonMapper.getInstance().writeValueAsString(section);
-                String result = ResourceUtil.getInstance().post("/api/section/save",content);
-                Section resultSection = JsonMapper.getInstance().readValue(result,Section.class);
-                if(resultSection != null) {
-                    sections.add(resultSection);
-                }
-            }
-            refreshable.refresh(event,sections,this.getClass());
-        }catch (IOException e ) {
-            e.printStackTrace();
-        }
+    private void sectionSave(ActionEvent event,Section section) {
+        refreshable.refresh(event,sectionList,this.getClass());
     }
 }

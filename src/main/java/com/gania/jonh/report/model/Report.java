@@ -22,12 +22,7 @@ public class Report {
     }
 
     public void setDate(String date) {
-        if(date==null || date.equals("null")){
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            this.date = df.format(new Date(timeInLog.getTime()));
-        }else{
-            this.date = date;
-        }
+        this.date = date;
     }
 
     public TimeLog getTimeOutLog() {

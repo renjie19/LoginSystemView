@@ -32,8 +32,8 @@
       </GridPane>
       <ButtonBar layoutX="386.0" layoutY="346.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#employeeSaveClicked" text="SAVE" />
-            <Button mnemonicParsing="false" onAction="#employeeClearClicked" text="CLEAR" />
+          <Button mnemonicParsing="false" onAction="#onEmployeeSaveClick" text="SAVE" />
+            <Button mnemonicParsing="false" onAction="#onEmployeeClearClick" text="CLEAR" />
         </buttons>
       </ButtonBar>
       <Label layoutX="248.0" layoutY="65.0" text="EMPLOYEE DETAILS" />

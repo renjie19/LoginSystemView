@@ -2,11 +2,9 @@ package com.gania.jonh.employee.controller;
 
 import com.gania.jonh.Editable;
 import com.gania.jonh.Refreshable;
+import com.gania.jonh.employee.EmployeeResourceController;
 import com.gania.jonh.employee.model.Employee;
-import com.gania.jonh.license.model.License;
 import com.gania.jonh.subject.controller.SubjectController;
-import com.gania.jonh.util.JsonMapper;
-import com.gania.jonh.util.ResourceUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,9 +27,9 @@ import java.util.*;
 public class ViewEmployeeController implements Initializable, Refreshable {
     private Employee currentEmployee;
     @FXML
-    private TableView<Employee> tableView;
+    private TableView<Employee> employeeTable;
     @FXML
-    private TableColumn<Employee, String> employeeName;
+    private TableColumn<Employee, String> employeeNameColumn;
     @FXML
     private TextField nameField;
     @FXML
@@ -49,9 +47,7 @@ public class ViewEmployeeController implements Initializable, Refreshable {
     void onDeleteClick(ActionEvent event) {
         if(currentEmployee != null ) {
             try{
-                Map<String,String> map = new HashMap<>();
-                map.put("id",String.valueOf(currentEmployee.getEmployeeId()));
-                ResourceUtil.getInstance().delete("/api/employee/deleteEmployee",map);
+                new EmployeeResourceController().deleteEmployee(currentEmployee);
                 loadTableData();
             }catch (Exception e) {
                 e.printStackTrace();
@@ -63,38 +59,29 @@ public class ViewEmployeeController implements Initializable, Refreshable {
     @FXML
     void onUpdateClick(ActionEvent event) {
         if(currentEmployee != null) {
-            try {
-                currentEmployee.setName(nameField.getText());
-                currentEmployee.setAge(Integer.parseInt(ageField.getText()));
-                currentEmployee.setAddress(addressField.getText());
-                currentEmployee.setPosition(positionField.getText());
-                currentEmployee.getLicense().setLicenseNumber(Integer.parseInt(licenseField.getText()));
-                currentEmployee.setLicense(saveLicense(currentEmployee.getLicense()));
-                String content = JsonMapper.getInstance().writeValueAsString(currentEmployee);
-                ResourceUtil.getInstance().post("/api/employee/update", content);
-                loadTableData();
-                fillInFields(null);
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
+            currentEmployee.setName(nameField.getText());
+            currentEmployee.setAge(Integer.parseInt(ageField.getText()));
+            currentEmployee.setAddress(addressField.getText());
+            currentEmployee.setPosition(positionField.getText());
+            currentEmployee.getLicense().setLicenseNumber(Integer.parseInt(licenseField.getText()));
+            currentEmployee.setLicense(currentEmployee.getLicense());
+            new EmployeeResourceController().updateEmployee(currentEmployee);
+            loadTableData();
+            fillInFields(null);
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try{
-            loadTableData();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadTableData();
     }
 
     @FXML
     void onCellClick(MouseEvent event) {
-        if(tableView.getSelectionModel().getSelectedIndex()>=0){
+        if(employeeTable.getSelectionModel().getSelectedIndex()>=0){
             fillInFields(null);
-            int index = tableView.getSelectionModel().getSelectedIndex();
-            currentEmployee = tableView.getItems().get(index);
+            int index = employeeTable.getSelectionModel().getSelectedIndex();
+            currentEmployee = employeeTable.getItems().get(index);
             fillInFields(currentEmployee);
         }
     }
@@ -137,17 +124,6 @@ public class ViewEmployeeController implements Initializable, Refreshable {
         }
     }
 
-    private License saveLicense(License license) {
-        try{
-            String content = JsonMapper.getInstance().writeValueAsString(license);
-            String result = ResourceUtil.getInstance().post("/api/license/update",content);
-            return JsonMapper.getInstance().readValue(result,License.class);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     private void fillInFields(Employee employee) {
         if(employee==null) {
             idField.clear();
@@ -166,12 +142,11 @@ public class ViewEmployeeController implements Initializable, Refreshable {
         }
     }
 
-    private void loadTableData() throws IOException{
-        String result = ResourceUtil.getInstance().getAllRequest("/api/employee/getAll");
-        List<Employee> employeeList1 = Arrays.asList(JsonMapper.getInstance().readValue(result, Employee[].class));
-        ObservableList<Employee> employeeList = FXCollections.observableArrayList(employeeList1);
-        employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tableView.setItems(employeeList);
+    private void loadTableData() {
+        List<Employee> employees = new EmployeeResourceController().getAll();
+        ObservableList<Employee> employeeList = FXCollections.observableArrayList(employees);
+        employeeNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        employeeTable.setItems(employeeList);
     }
 
     @Override
@@ -183,5 +158,6 @@ public class ViewEmployeeController implements Initializable, Refreshable {
         }
         onUpdateClick(event);
         fillInFields(currentEmployee);
+
     }
 }

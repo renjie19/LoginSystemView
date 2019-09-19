@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class RootController {
 
+
     @FXML
     void onAddEmployeeClick(ActionEvent event) {
         try{

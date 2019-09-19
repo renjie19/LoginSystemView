@@ -4,6 +4,7 @@ import com.gania.jonh.Editable;
 import com.gania.jonh.LoginView.util.StateEnum;
 import com.gania.jonh.Refreshable;
 import com.gania.jonh.report.model.Report;
+import com.gania.jonh.timelog.TimeLogResourceController;
 import com.gania.jonh.timelog.model.TimeLog;
 import com.gania.jonh.util.JsonMapper;
 import com.gania.jonh.util.ResourceUtil;
@@ -87,16 +88,10 @@ public class TimeLogController implements Editable {
     }
 
     private void createTimeOutLog(Long timeOut) {
-        try{
-            TimeLog timeLog = new TimeLog();
-            timeLog.setEmployeeId(currentReport.getEmployeeId());
-            timeLog.setType(StateEnum.OUT);
-            timeLog.setTime(timeOut);
-            String content = JsonMapper.getInstance().writeValueAsString(timeLog);
-            String result = ResourceUtil.getInstance().post("/api/timeLog/update",content);
-            currentReport.setTimeOutLog(JsonMapper.getInstance().readValue(result,TimeLog.class));
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        TimeLog timeLog = new TimeLog();
+        timeLog.setEmployeeId(currentReport.getEmployeeId());
+        timeLog.setType(StateEnum.OUT);
+        timeLog.setTime(timeOut);
+        new TimeLogResourceController().createTimeOutLog(timeLog);
     }
 }

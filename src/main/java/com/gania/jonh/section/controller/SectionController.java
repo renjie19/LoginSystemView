@@ -75,6 +75,7 @@ public class SectionController implements Editable {
             new SectionResourceController().deleteSection(currentSection.getSectionId());
             sectionList.remove(currentSection);
             addDataToTable(sectionList);
+            onClearClick(event);
         }
     }
 

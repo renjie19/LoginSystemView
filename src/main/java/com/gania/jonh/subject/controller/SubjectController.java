@@ -42,10 +42,11 @@ public class SubjectController implements Editable {
     }
 
     @FXML
-    void onSubjectDeleteClick(ActionEvent event) {
+    void onSubjectRemoveClick(ActionEvent event) {
         if(currentSubject != null || currentSubject.getId() != 0) {
             new SubjectResourceController().delete(currentSubject);
             subjectList.remove(currentSubject);
+            onClearClick(event);
         }
     }
 

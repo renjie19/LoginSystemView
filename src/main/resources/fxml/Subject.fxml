@@ -27,7 +27,7 @@
                   <TextField fx:id="subjectNameField" layoutX="83.0" layoutY="130.0" prefHeight="25.0" prefWidth="169.0" />
                   <Label layoutX="56.0" layoutY="77.0" text="ID" />
                   <Label layoutX="39.0" layoutY="130.0" text="NAME" />
-                  <Button layoutX="150.0" layoutY="232.0" mnemonicParsing="false" onAction="#onSubjectDeleteClick" prefHeight="25.0" prefWidth="59.0" text="Remove" />
+                  <Button layoutX="150.0" layoutY="232.0" mnemonicParsing="false" onAction="#onSubjectRemoveClick" prefHeight="25.0" prefWidth="59.0" text="Remove" />
                   <Label layoutX="114.0" layoutY="31.0" text="DETAILS" />
                   <Button layoutX="103.0" layoutY="232.0" mnemonicParsing="false" onAction="#onSubjectAddClick" prefHeight="25.0" prefWidth="43.0" text="Add" />
                   <Button layoutX="212.0" layoutY="232.0" mnemonicParsing="false" onAction="#onClearClick" text="Clear" />

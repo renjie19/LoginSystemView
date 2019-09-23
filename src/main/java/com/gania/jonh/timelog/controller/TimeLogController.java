@@ -7,8 +7,6 @@ import com.gania.jonh.report.controller.ReportController;
 import com.gania.jonh.report.model.Report;
 import com.gania.jonh.timelog.TimeLogResourceController;
 import com.gania.jonh.timelog.model.TimeLog;
-import com.gania.jonh.util.JsonMapper;
-import com.gania.jonh.util.ResourceUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

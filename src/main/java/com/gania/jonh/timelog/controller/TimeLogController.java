@@ -59,16 +59,11 @@ public class TimeLogController implements Editable<Refreshable<ReportController>
     }
 
     private void saveNewLogs(Report report) {
-        try{
-            List<TimeLog> timeLogList = new ArrayList<>();
-            timeLogList.add(report.getTimeInLog());
-            timeLogList.add(report.getTimeOutLog());
-            for(TimeLog log : timeLogList) {
-                String content = JsonMapper.getInstance().writeValueAsString(log);
-                ResourceUtil.getInstance().post("/api/timeLog/update",content);
-            }
-        }catch (IOException e) {
-            e.printStackTrace();
+        List<TimeLog> timeLogList = new ArrayList<>();
+        timeLogList.add(report.getTimeInLog());
+        timeLogList.add(report.getTimeOutLog());
+        for(TimeLog log : timeLogList) {
+            new TimeLogResourceController().createTimeOutLog(log);
         }
     }
 

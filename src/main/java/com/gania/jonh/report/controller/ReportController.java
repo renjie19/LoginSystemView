@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ReportController implements Initializable,Refreshable {
@@ -71,15 +70,12 @@ public class ReportController implements Initializable,Refreshable {
     void onItemClick(MouseEvent event) {
         if(reportTable.getSelectionModel().getSelectedIndex()>=0) {
             int index = reportTable.getSelectionModel().getSelectedIndex();
-            List<Report> reportList = new ArrayList<>();
-            reportList.add(reportTable.getItems().get(index));
             try{
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/fxml/TimeLog.fxml"));
                 AnchorPane anchorPane = loader.load();
                 Editable timeLogController = loader.getController();
-                timeLogController.setCurrentController(this);
-                timeLogController.setData(reportList);
+                timeLogController.setParameters(this,reportTable.getItems().get(index));
                 Stage stage = new Stage();
                 stage.setScene(new Scene(anchorPane));
                 stage.show();
@@ -90,7 +86,7 @@ public class ReportController implements Initializable,Refreshable {
     }
 
     @Override
-    public void refresh(ActionEvent event, List list, Class type) {
+    public void refresh(ActionEvent event,Object report) {
         onSearchClick(event);
         employeeNameField.requestFocus();
     }

@@ -45,7 +45,8 @@ public class CreateEmployeeController {
             }else{
                 employee.setLicense(new License());
             }
-            employee = new EmployeeResourceController().createEmployee(employee);
+            EmployeeResourceController employeeResourceController = new EmployeeResourceController();
+            employee = employeeResourceController.createEmployee(employee);
             onEmployeeClearClick(event);
             LoginSystem main = new LoginSystem();
             main.showLogin();

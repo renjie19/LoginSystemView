@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -94,8 +95,7 @@ public class ViewEmployeeController implements Initializable, Refreshable {
                 loader.setLocation(getClass().getResource("/fxml/Section.fxml"));
                 AnchorPane anchorPane = loader.load();
                 Editable sectionController = loader.getController();
-                sectionController.setCurrentController(this);
-                sectionController.setData(currentEmployee.getSectionList());
+                sectionController.setParameters(this,currentEmployee);
                 Stage stage = new Stage();
                 stage.setScene(new Scene(anchorPane));
                 stage.show();
@@ -113,8 +113,7 @@ public class ViewEmployeeController implements Initializable, Refreshable {
                 loader.setLocation(getClass().getResource("/fxml/Subject.fxml"));
                 AnchorPane anchorPane = loader.load();
                 Editable subjectController = loader.getController();
-                subjectController.setCurrentController(this);
-                subjectController.setData(currentEmployee.getSubjectList());
+                subjectController.setParameters(this,currentEmployee);
                 Stage stage = new Stage();
                 stage.setScene(new Scene(anchorPane));
                 stage.show();
@@ -150,14 +149,9 @@ public class ViewEmployeeController implements Initializable, Refreshable {
     }
 
     @Override
-    public void refresh(ActionEvent event, List list,Class type) {
-        if(type.equals(SubjectController.class)){
-            currentEmployee.setSubjectList(list);
-        }else{
-            currentEmployee.setSectionList(list);
-        }
+    public void refresh(ActionEvent event, Object employee) {
+        currentEmployee = (Employee)employee;
         onUpdateClick(event);
         fillInFields(currentEmployee);
-
     }
 }

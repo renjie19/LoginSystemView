@@ -2,10 +2,10 @@ package com.gania.jonh.section.controller;
 
 import com.gania.jonh.Editable;
 import com.gania.jonh.Refreshable;
+import com.gania.jonh.employee.controller.ViewEmployeeController;
+import com.gania.jonh.employee.model.Employee;
 import com.gania.jonh.section.SectionResourceController;
 import com.gania.jonh.section.model.Section;
-import com.gania.jonh.util.JsonMapper;
-import com.gania.jonh.util.ResourceUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,16 +16,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class SectionController implements Editable {
-    private Refreshable refreshable;
-    private List<Section> sectionList;
+public class SectionController implements Editable<ViewEmployeeController, Employee> {
+    private Refreshable<Employee> refreshable;
     private Section currentSection;
+    private Employee employee;
     @FXML
     private TableView<Section> sectionTable;
     @FXML
@@ -61,8 +57,8 @@ public class SectionController implements Editable {
             Section section = new Section();
             section.setSectionName(sectionNameField.getText());
             section.setYearLevel(yearField.getText());
-            sectionList.add(section);
-            addDataToTable(sectionList);
+            employee.getSectionList().add(section);
+            addDataToTable(employee.getSectionList());
             sectionNameField.clear();
             yearField.clear();
             sectionSave(event,section);
@@ -73,8 +69,8 @@ public class SectionController implements Editable {
     void onSectionDeleteClick(ActionEvent event) {
         if(currentSection != null) {
             new SectionResourceController().deleteSection(currentSection.getSectionId());
-            sectionList.remove(currentSection);
-            addDataToTable(sectionList);
+            employee.getSectionList().remove(currentSection);
+            addDataToTable(employee.getSectionList());
             onClearClick(event);
         }
     }
@@ -84,17 +80,6 @@ public class SectionController implements Editable {
         sectionIdField.clear();
         sectionNameField.clear();
         yearField.clear();
-    }
-
-    @Override
-    public void setCurrentController(Refreshable controller) {
-        this.refreshable = controller;
-    }
-
-    @Override
-    public void setData(List list) {
-        this.sectionList = list;
-        addDataToTable(list);
     }
 
     private void addDataToTable(List<Section> sectionList) {
@@ -111,6 +96,13 @@ public class SectionController implements Editable {
     }
 
     private void sectionSave(ActionEvent event,Section section) {
-        refreshable.refresh(event,sectionList,this.getClass());
+        refreshable.refresh(event,employee);
+    }
+
+    @Override
+    public void setParameters(ViewEmployeeController controller, Employee object) {
+        this.refreshable = controller;
+        this.employee = object;
+        addDataToTable(employee.getSectionList());
     }
 }

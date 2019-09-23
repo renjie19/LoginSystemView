@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class ViewEmployeeController implements Initializable, Refreshable {
+public class ViewEmployeeController implements Initializable, Refreshable<Employee> {
     private Employee currentEmployee;
     @FXML
     private TableView<Employee> employeeTable;
@@ -93,9 +93,8 @@ public class ViewEmployeeController implements Initializable, Refreshable {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/fxml/Section.fxml"));
                 AnchorPane anchorPane = loader.load();
-                Editable sectionController = loader.getController();
-                sectionController.setCurrentController(this);
-                sectionController.setData(currentEmployee.getSectionList());
+                Editable<Refreshable,Employee> sectionController = loader.getController();
+                sectionController.setParameters(this,currentEmployee);
                 Stage stage = new Stage();
                 stage.setScene(new Scene(anchorPane));
                 stage.show();
@@ -112,9 +111,8 @@ public class ViewEmployeeController implements Initializable, Refreshable {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/fxml/Subject.fxml"));
                 AnchorPane anchorPane = loader.load();
-                Editable subjectController = loader.getController();
-                subjectController.setCurrentController(this);
-                subjectController.setData(currentEmployee.getSubjectList());
+                Editable<Refreshable,Employee> subjectController = loader.getController();
+                subjectController.setParameters(this,currentEmployee);
                 Stage stage = new Stage();
                 stage.setScene(new Scene(anchorPane));
                 stage.show();
@@ -150,14 +148,9 @@ public class ViewEmployeeController implements Initializable, Refreshable {
     }
 
     @Override
-    public void refresh(ActionEvent event, List list,Class type) {
-        if(type.equals(SubjectController.class)){
-            currentEmployee.setSubjectList(list);
-        }else{
-            currentEmployee.setSectionList(list);
-        }
+    public void refresh(ActionEvent event,Employee employee) {
+        currentEmployee = employee;
         onUpdateClick(event);
         fillInFields(currentEmployee);
-
     }
 }

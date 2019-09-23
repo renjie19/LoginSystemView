@@ -4,6 +4,6 @@ import javafx.event.ActionEvent;
 
 import java.util.List;
 
-public interface Refreshable {
-    void refresh(ActionEvent event, List list,Class type);
+public interface Refreshable<T> {
+    void refresh(ActionEvent event,T object );
 }

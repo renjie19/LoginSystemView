@@ -3,6 +3,7 @@ package com.gania.jonh.timelog.controller;
 import com.gania.jonh.Editable;
 import com.gania.jonh.LoginView.util.StateEnum;
 import com.gania.jonh.Refreshable;
+import com.gania.jonh.report.controller.ReportController;
 import com.gania.jonh.report.model.Report;
 import com.gania.jonh.timelog.TimeLogResourceController;
 import com.gania.jonh.timelog.model.TimeLog;
@@ -22,8 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TimeLogController implements Editable {
-    private Refreshable refreshable;
+public class TimeLogController implements Editable<Refreshable<ReportController>,Report> {
+    private Refreshable<ReportController> refreshable;
     private Report currentReport;
     @FXML
     private TextField timeInField;
@@ -48,7 +49,7 @@ public class TimeLogController implements Editable {
                 saveNewLogs(currentReport);
                 Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
                 stage.close();
-                refreshable.refresh(event,null,null);
+                refreshable.refresh(event,null);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -71,27 +72,23 @@ public class TimeLogController implements Editable {
         }
     }
 
-    @Override
-    public void setCurrentController(Refreshable refreshable) {
-        this.refreshable = refreshable;
-    }
-
-    @Override
-    public void setData(List dataList) {
-        this.currentReport = (Report)dataList.get(0);
-        String timeIn = new SimpleDateFormat("HH:mm:ss").format(new Date(currentReport.getTimeInLog().getTime()));
-        timeInField.setText(timeIn);
-        if(currentReport.getTimeOutLog() != null) {
-            String timeOut = new SimpleDateFormat("HH:mm:ss").format(new Date(currentReport.getTimeOutLog().getTime()));
-            timeOutField.setText(timeOut);
-        }
-    }
-
     private void createTimeOutLog(Long timeOut) {
         TimeLog timeLog = new TimeLog();
         timeLog.setEmployeeId(currentReport.getEmployeeId());
         timeLog.setType(StateEnum.OUT);
         timeLog.setTime(timeOut);
         new TimeLogResourceController().createTimeOutLog(timeLog);
+    }
+
+    @Override
+    public void setParameters(Refreshable<ReportController> controller, Report object) {
+        this.refreshable = controller;
+        this.currentReport = object;
+        String timeIn = new SimpleDateFormat("HH:mm:ss").format(new Date(currentReport.getTimeInLog().getTime()));
+        timeInField.setText(timeIn);
+        if(currentReport.getTimeOutLog() != null) {
+            String timeOut = new SimpleDateFormat("HH:mm:ss").format(new Date(currentReport.getTimeOutLog().getTime()));
+            timeOutField.setText(timeOut);
+        }
     }
 }

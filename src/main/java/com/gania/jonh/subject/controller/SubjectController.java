@@ -2,10 +2,10 @@ package com.gania.jonh.subject.controller;
 
 import com.gania.jonh.Editable;
 import com.gania.jonh.Refreshable;
+import com.gania.jonh.employee.controller.ViewEmployeeController;
+import com.gania.jonh.employee.model.Employee;
 import com.gania.jonh.subject.SubjectResourceController;
 import com.gania.jonh.subject.model.Subject;
-import com.gania.jonh.util.JsonMapper;
-import com.gania.jonh.util.ResourceUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,13 +16,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
 import java.util.*;
 
-public class SubjectController implements Editable {
-    private Refreshable refreshable;
-    private List<Subject> subjectList;
+public class SubjectController implements Editable<ViewEmployeeController, Employee> {
+    private Refreshable<Employee> refreshable;
     private Subject currentSubject;
+    private Employee employee;
     @FXML
     private TableView<Subject> subjectTable;
     @FXML
@@ -43,9 +42,9 @@ public class SubjectController implements Editable {
 
     @FXML
     void onSubjectRemoveClick(ActionEvent event) {
-        if(currentSubject != null || currentSubject.getId() != 0) {
+        if(currentSubject != null) {
             new SubjectResourceController().delete(currentSubject);
-            subjectList.remove(currentSubject);
+            employee.getSubjectList().remove(currentSubject);
             onClearClick(event);
         }
     }
@@ -58,8 +57,8 @@ public class SubjectController implements Editable {
         }else if(!subjectNameField.getText().isEmpty()) {
             Subject subject = new Subject();
             subject.setSubjectName(subjectNameField.getText());
-            subjectList.add(subject);
-            addDataToTable(subjectList);
+            employee.getSubjectList().add(subject);
+            addDataToTable(employee.getSubjectList());
             subjectNameField.clear();
         }
         subjectSave(event);
@@ -69,17 +68,6 @@ public class SubjectController implements Editable {
     void onClearClick(ActionEvent event) {
         subjectIdField.clear();
         subjectNameField.clear();
-    }
-
-    @Override
-    public void setCurrentController(Refreshable viewEmployeeController) {
-        this.refreshable = viewEmployeeController;
-    }
-
-    @Override
-    public void setData(List list) {
-        this.subjectList = list;
-        addDataToTable(subjectList);
     }
 
     private void fillInFields(Subject subject) {
@@ -94,6 +82,13 @@ public class SubjectController implements Editable {
     }
 
     private void subjectSave(ActionEvent event) {
-        refreshable.refresh(event,subjectList,this.getClass());
+        refreshable.refresh(event,employee);
+    }
+
+    @Override
+    public void setParameters(ViewEmployeeController controller, Employee object) {
+        this.refreshable = controller;
+        this.employee = object;
+        addDataToTable(employee.getSubjectList());
     }
 }

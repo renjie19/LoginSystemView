@@ -45,6 +45,7 @@ public class SubjectController implements Editable<ViewEmployeeController, Emplo
         if(currentSubject != null) {
             new SubjectResourceController().delete(currentSubject);
             employee.getSubjectList().remove(currentSubject);
+            addDataToTable(employee.getSubjectList());
             onClearClick(event);
         }
     }

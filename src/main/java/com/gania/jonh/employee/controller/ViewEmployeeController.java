@@ -4,7 +4,6 @@ import com.gania.jonh.Editable;
 import com.gania.jonh.Refreshable;
 import com.gania.jonh.employee.EmployeeResourceController;
 import com.gania.jonh.employee.model.Employee;
-import com.gania.jonh.subject.controller.SubjectController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -47,12 +46,8 @@ public class ViewEmployeeController implements Initializable, Refreshable {
     @FXML
     void onDeleteClick(ActionEvent event) {
         if(currentEmployee != null ) {
-            try{
-                new EmployeeResourceController().deleteEmployee(currentEmployee);
-                loadTableData();
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
+            new EmployeeResourceController().deleteEmployee(currentEmployee);
+            loadTableData();
             fillInFields(null);
         }
     }

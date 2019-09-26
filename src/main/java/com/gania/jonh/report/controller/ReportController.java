@@ -53,6 +53,7 @@ public class ReportController implements Initializable,Refreshable {
         int index = employeeTable.getSelectionModel().getSelectedIndex();
         currentEmployee = employeeTable.getItems().get(index);
         employeeNameField.setText(currentEmployee.getName());
+        addDataToReportTable(new ArrayList<>());
     }
 
     @FXML

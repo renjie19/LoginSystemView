@@ -74,7 +74,7 @@ import java.util.Map;
         try{
             HttpDelete delete = new HttpDelete(UriBuilder(urlRequest,map));
             delete.setHeader("Content-Type", APPLICATION_JSON_UTF8);
-            HttpResponse response = client.execute(delete);
+            client.execute(delete);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,8 +87,7 @@ import java.util.Map;
                 ResourceServerResponse error = JsonMapper.getInstance().readValue(result,ResourceServerResponse.class);
                 AlertDialog.getInstance().showAlert(error.getMessage());
             }else{
-                String result = EntityUtils.toString(response.getEntity(), "UTF-8");
-                return result;
+                return  EntityUtils.toString(response.getEntity(), "UTF-8");
             }
         }catch (IOException e) {
             e.printStackTrace();

@@ -34,7 +34,7 @@ public class LoginSystem extends Application {
         }catch (IOException e) {
             e.printStackTrace();
         }
-}
+    }
 
     public void showLogin() {
         try{
